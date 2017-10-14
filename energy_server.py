@@ -58,6 +58,20 @@ class data_analysis:
         b.append(self.b2)
         b.append(self.b3)
         return b
+
+    def setValues(self):
+        file = open("quota.txt","r")
+        self.quota = int(file.readline())
+        file.close()
+
+        file = open("username.txt","r")
+        self.username = file.readline()
+        file.close()
+
+        file = open("phone.txt","r")
+        self.phone = file.readline()
+        file.close()
+        
 		
 def set_quota(newVal):
     analyse_object.setQuota(newVal)
@@ -91,7 +105,7 @@ def get_button():
 
 analyse_object=data_analysis()
 analyse_object.getQuota() 
-      
+analyse_object.setValues()
 app = Flask(__name__)
 CORS(app)
 print('Server started')
@@ -138,6 +152,9 @@ def setNewQuota():
     new_quota = request.form['quota']
     print("New Quota: ", new_quota)
     set_quota(new_quota)
+    file = open("quota.txt","w")
+    file.write(new_quota)
+    file.close()
     val = 1
     jdata ={
         'val': val
@@ -158,6 +175,13 @@ def setDetails():
     new_phone = request.form['phone']
     set_username(new_uname)
     set_phone(new_phone)
+    file = open("username.txt","w")
+    file.write(new_uname)
+    file.close()
+
+    file = open("phone.txt","w")
+    file.write(new_phone)
+    file.close()
     val = 1
     jdata ={
         'val': val
